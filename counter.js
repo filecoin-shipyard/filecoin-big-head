@@ -1,5 +1,6 @@
-const React = require('react')
-const { render, Color } = require('ink');
+import React from 'react'
+import {render, Color} from 'ink'
+import Box from 'ink-box'
 
 class Counter extends React.Component {
 	constructor() {
@@ -12,9 +13,11 @@ class Counter extends React.Component {
 
 	render() {
 		return (
-			<Color green>
-				{this.state.i} tests passed
-			</Color>
+      <Box borderStyle="round" borderColor="cyan" float="center" padding={1}>
+        <Color green>
+          {this.state.i} tests passed
+        </Color>
+      </Box>
 		);
 	}
 

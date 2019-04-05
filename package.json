@@ -10,8 +10,10 @@
   "author": "Jim Pick (@jimpick)",
   "license": "MIT",
   "dependencies": {
+    "esm": "^3.2.22",
     "import-jsx": "^2.0.0",
     "ink": "^2.1.1",
+    "ink-box": "^1.0.0",
     "react": "^16.8.6"
   }
 }
