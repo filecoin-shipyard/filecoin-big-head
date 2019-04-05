@@ -1,6 +1,6 @@
 import React from 'react'
-import {render, Color} from 'ink'
-import Box from 'ink-box'
+import { render, Box, Color } from 'ink'
+import InkBox from 'ink-box'
 
 class Counter extends React.Component {
 	constructor() {
@@ -12,13 +12,27 @@ class Counter extends React.Component {
 	}
 
 	render() {
+    /*
+        <InkBox borderStyle="round" borderColor="cyan" float="center" padding={1}>
+          <Color green>
+            {this.state.i} tests passed
+          </Color>
+        </InkBox>
+        */
+    const { columns, rows } = process.stdout
 		return (
-      <Box borderStyle="round" borderColor="cyan" float="center" padding={1}>
-        <Color green>
-          {this.state.i} tests passed
-        </Color>
+      <Box flexDirection="column" width={columns} height={rows - 1}>
+        <Box>
+          Label:
+        </Box>
+        <Box flexGrow={1} textWrap="truncate">
+          <Color green>
+            {this.state.i} tests passed
+          </Color>
+          {'x'.repeat(200)}
+        </Box>
       </Box>
-		);
+		)
 	}
 
 	componentDidMount() {
