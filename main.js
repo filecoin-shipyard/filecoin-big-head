@@ -2,56 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { render, Box, Color } from 'ink'
 import InkBox from 'ink-box'
 import BigText from 'ink-big-text'
-import Filecoin from 'filecoin-api-client'
-
-const fc = Filecoin()
+import useFilecoinHead from './useFilecoinHead'
 
 const color = process.argv[2] || 'cyan'
 
-const Counter = () => {
-  const [headBlocks, setHeadBlocks] = useState()
-  const [height, setHeight] = useState()
-  const [updateTime, setUpdateTime] = useState(0)
-
-  useEffect(() => {
-    const state = {
-      timeoutId: null,
-      height
-    }
-    async function doWork () {
-      const headCids = await fc.chain.head()
-      const headBlocks = {}
-      let newHeight
-      for (const cid of headCids) {
-        const block = await fc.show.block(cid)
-        headBlocks[cid.toString()] = block
-        newHeight = block.height
-      }
-      setHeadBlocks(headBlocks)
-      if (newHeight !== state.height) {
-        state.height = newHeight
-        setHeight(state.height)
-        setUpdateTime(Date.now())
-      }
-    }
-    function schedule () {
-      state.timeoutId = setTimeout(async () => {
-        await doWork()
-        schedule()
-      }, 1000)
-    }
-    schedule()
-    return () => clearTimeout(state.timeoutId)
-  }, true)
+const Main = () => {
+  const [_, height, updateTime] = useFilecoinHead()
 
   const { columns, rows } = process.stdout
-
-  /*
-    {headBlocks && Object.keys(headBlocks).map(cid => {
-      const block = headBlocks[cid]
-      return <Box key={cid}>{cid} {block.height}</Box>
-    })}
-  */
 
   if (!updateTime) {
     return <Box>Loading...</Box>
@@ -70,4 +28,4 @@ const Counter = () => {
   )
 }
 
-render(<Counter/>);
+render(<Main/>)
