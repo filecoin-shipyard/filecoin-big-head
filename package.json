@@ -11,6 +11,7 @@
   "license": "MIT",
   "dependencies": {
     "esm": "^3.2.22",
+    "filecoin-api-client": "^0.2.0",
     "import-jsx": "^2.0.0",
     "ink": "^2.1.1",
     "ink-big-text": "^1.0.1",
