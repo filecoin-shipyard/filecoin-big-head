@@ -1,5 +1,5 @@
 {
-  "name": "@jimpick/filecoin-bulk-dealer",
+  "name": "@jimpick/filecoin-dealmaker",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -13,7 +13,9 @@
     "esm": "^3.2.22",
     "import-jsx": "^2.0.0",
     "ink": "^2.1.1",
+    "ink-big-text": "^1.0.1",
     "ink-box": "^1.0.0",
+    "ink-gradient": "^1.0.0",
     "react": "^16.8.6"
   }
 }
