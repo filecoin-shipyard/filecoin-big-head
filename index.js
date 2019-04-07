@@ -31,8 +31,11 @@ const cli = meow(
         Fonts: (from dominikwilkowski/cfonts)
           huge block simple simpleBlock 3d simple3d chrome
 
-      -flash-duration <seconds>
+      -flash-duration <seconds>     (default: 2.5)
       -flash-color <color1,color2>
+
+      -interval <seconds>           (default: 5)
+      -i <seconds>
 
       --no-nickname
       --no-seconds
@@ -59,6 +62,11 @@ const cli = meow(
         alias: 'fc',
         default: 'yellow'
       },
+      interval: {
+        type: 'string',
+        alias: 'i',
+        default: '5'
+      },
       nickname: {
         type: 'boolean',
         default: true
@@ -77,11 +85,12 @@ if (!colors[1]) colors[1] = colors[0]
 const flashColors = args.flashColor.split(',')
 if (!flashColors[1]) flashColors[1] = colors[1]
 const flashDuration = Number(args.flashDuration) * 1000 
+const interval = Number(args.interval) * 1000 
 
 const Main = () => {
   const [nickname] = useFilecoinConfig('heartbeat.nickname')
   const [_, height, updateTime] = useFilecoinHead({
-    interval: 5000,
+    interval,
     flashDuration
   })
 
