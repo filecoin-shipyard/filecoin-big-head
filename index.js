@@ -1,13 +1,31 @@
 #!/usr/bin/env node
 
+import buildOptions from 'minimist-options'
+import minimist from 'minimist'
 import React, { useState, useEffect } from 'react'
-import { render, Box, Color } from 'ink'
+import { render, Box } from 'ink'
 import InkBox from 'ink-box'
 import BigText from 'ink-big-text'
 import useFilecoinHead from './useFilecoinHead'
 import InkWatchForExitKey from './inkWatchForExitKey'
 
-const color = process.argv[2] || 'cyan'
+const options = buildOptions({
+	color: {
+		type: 'string',
+		alias: 'c',
+		default: 'cyan'
+	},
+	font: {
+		type: 'string',
+		alias: 'f',
+		default: 'huge'
+	}
+})
+
+const args = minimist(process.argv.slice(2), options)
+
+const colors = args.color.split(',')
+if (!colors[1]) colors[1] = colors[0]
 
 const Main = () => {
   const [_, height, updateTime] = useFilecoinHead({ interval: 5000 })
@@ -17,12 +35,14 @@ const Main = () => {
   if (!updateTime) {
     return <Box>Loading...</Box>
   }
+
   return (
     <Box flexDirection="column" width={columns} height={rows - 1}>
       <Box>
-        <Color keyword={color}>
-          <BigText text={`${height}`} font="huge" />
-        </Color>
+        <BigText
+          text={`${height}`}
+          font={args.font}
+          colors={colors} />
       </Box>
       <Box>
         {Math.floor((Date.now() - updateTime) / 1000)}s ago
