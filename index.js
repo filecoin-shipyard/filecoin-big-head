@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { render, Box } from 'ink'
 import InkBox from 'ink-box'
 import BigText from 'ink-big-text'
+import useFilecoinConfig from './useFilecoinConfig'
 import useFilecoinHead from './useFilecoinHead'
 import InkWatchForExitKey from './inkWatchForExitKey'
 
@@ -23,15 +24,19 @@ const cli = meow(
           white whiteBright gray
           #ff8800 (any valid hex color)
           #f80 (short form is supported as well)
+          candy
 
       -font <name>
       -f <name>
 
-        Fonts:
+        Fonts: (from dominikwilkowski/cfonts)
           huge block simple simpleBlock 3d simple3d chrome
 
       -flash-duration <seconds>
       -flash-color <color1,color2>
+
+      --no-nickname
+      --no-seconds
   `,
   {
     flags: {
@@ -54,6 +59,14 @@ const cli = meow(
         type: 'string',
         alias: 'fc',
         default: 'yellow'
+      },
+      nickname: {
+        type: 'boolean',
+        default: true
+      },
+      seconds: {
+        type: 'boolean',
+        default: true
       }
     }
   }
@@ -67,6 +80,7 @@ if (!flashColors[1]) flashColors[1] = colors[1]
 const flashDuration = Number(args.flashDuration) * 1000 
 
 const Main = () => {
+  const [nickname] = useFilecoinConfig('heartbeat.nickname')
   const [_, height, updateTime] = useFilecoinHead({
     interval: 5000,
     flashDuration
@@ -81,17 +95,24 @@ const Main = () => {
   const displayColors = (Date.now() < updateTime + flashDuration) ?
     flashColors : colors
 
+  const seconds = args.seconds ?
+    <Box>
+      {Math.floor((Date.now() - updateTime) / 1000)}s ago
+    </Box>
+    : null
+
   return (
     <Box flexDirection="column" width={columns} height={rows - 1}>
+      <Box>
+        {args.nickname && nickname && nickname}
+      </Box>
       <Box>
         <BigText
           text={`${height}`}
           font={args.font}
           colors={displayColors} />
       </Box>
-      <Box>
-        {Math.floor((Date.now() - updateTime) / 1000)}s ago
-      </Box>
+      {seconds}
       <InkWatchForExitKey />
     </Box>
   )
