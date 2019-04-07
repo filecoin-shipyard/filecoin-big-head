@@ -1,7 +1,7 @@
 {
   "name": "filecoin-big-head",
-  "version": "0.0.1",
-  "description": "Displays Filecoin chain height in big letters in terminal.",
+  "version": "0.0.2",
+  "description": "Displays Filecoin chain height in big letters in terminal",
   "scripts": {
     "dev": "nodemon --ignore dist --exec babel-node index.js",
     "build": "babel *.js --out-dir dist",
