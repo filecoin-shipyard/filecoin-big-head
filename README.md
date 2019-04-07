@@ -21,10 +21,13 @@ npx filecoin-big-head
 ```
 npx filecoin-big-head
 ```
+![Example 1](filecoin-big-head-1.gif)
 
-``
+```
 npx filecoin-big-head --font=3d --color=cyanBright,blue --flash-color=whiteBright
 ```
+
+![Example 2](filecoin-big-head-2.gif)
 
 # License
 
