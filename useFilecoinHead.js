@@ -3,10 +3,14 @@ import Filecoin from 'filecoin-api-client'
 
 const fc = Filecoin()
 
-export default function useFilecoinHead ({ interval = 1000 }) {
+export default function useFilecoinHead ({
+  interval = 1000,
+  flashDuration
+}) {
   const [headBlocks, setHeadBlocks] = useState()
   const [height, setHeight] = useState()
-  const [updateTime, setUpdateTime] = useState(0)
+  const [updateTime, setUpdateTime] = useState()
+  const [lastFlashTime, setLastFlashTime] = useState()
 
   useEffect(() => {
     const state = {
@@ -27,6 +31,11 @@ export default function useFilecoinHead ({ interval = 1000 }) {
         state.height = newHeight
         setHeight(state.height)
         setUpdateTime(Date.now())
+        if (flashDuration > 0) {
+          setTimeout(() => {
+            setLastFlashTime(Date.now())
+          }, flashDuration + 100)
+        }
       }
     }
     function schedule () {
@@ -39,5 +48,5 @@ export default function useFilecoinHead ({ interval = 1000 }) {
     return () => clearTimeout(state.timeoutId)
   }, true)
 
-  return [headBlocks, height, updateTime]
+  return [headBlocks, height, updateTime, lastFlashTime]
 }
