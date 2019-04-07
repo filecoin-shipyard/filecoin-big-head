@@ -18,7 +18,11 @@ const cli = meow(
       -c <color1,...>
 
         Colors:
-          cyan black red green yellow blue magenta white gray
+          cyan cyanBright black red redBright green greeBright
+          yellow yellowBright blue blueBright magenta magentaBright
+          white whiteBright gray
+          #ff8800 (any valid hex color)
+          #f80 (short form is supported as well)
 
       -font <name>
       -f <name>
@@ -44,12 +48,12 @@ const cli = meow(
       flashDuration: {
         type: 'string',
         alias: 'fd',
-        default: '1.5'
+        default: '2.5'
       },
       flashColor: {
         type: 'string',
         alias: 'fc',
-        default: 'yellow,cyan'
+        default: 'yellow'
       }
     }
   }
@@ -59,7 +63,7 @@ const args = cli.flags
 const colors = args.color.split(',')
 if (!colors[1]) colors[1] = colors[0]
 const flashColors = args.flashColor.split(',')
-if (!flashColors[1]) flashColors[1] = flashColors[0]
+if (!flashColors[1]) flashColors[1] = colors[1]
 const flashDuration = Number(args.flashDuration) * 1000 
 
 const Main = () => {
