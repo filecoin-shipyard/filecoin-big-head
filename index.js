@@ -3,7 +3,6 @@
 import meow from 'meow'
 import React, { useState, useEffect } from 'react'
 import { render, Box } from 'ink'
-import InkBox from 'ink-box'
 import BigText from 'ink-big-text'
 import useFilecoinConfig from './useFilecoinConfig'
 import useFilecoinHead from './useFilecoinHead'
