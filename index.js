@@ -32,4 +32,16 @@ const Main = () => {
   )
 }
 
-render(<Main/>)
+async function run () {
+  const { waitUntilExit } = render(<Main/>)
+
+  try {
+    await waitUntilExit()
+    process.exit(0)
+  } catch (e) {
+    console.error(e)
+    process.exit(1)
+  }
+}
+
+run()

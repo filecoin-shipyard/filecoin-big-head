@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Displays filecoin height in big letters in terminal",
   "scripts": {
-    "dev": "nodemon -q --no-stdin --ignore dist --exec babel-node index.js",
+    "dev": "nodemon --ignore dist --exec babel-node index.js",
     "build": "babel *.js --out-dir dist"
   },
   "bin": {
@@ -38,5 +38,9 @@
       "@babel/transform-react-jsx"
     ]
   },
-  "browserslist": "node 10"
+  "browserslist": "node 10",
+  "nodemonConfig": {
+    "stdin": false,
+    "restartable": false
+  }
 }
