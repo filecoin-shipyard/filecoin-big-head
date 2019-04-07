@@ -3,22 +3,40 @@
   "version": "0.0.1",
   "description": "Displays filecoin height in big letters in terminal",
   "scripts": {
-    "start": "node index.js"
+    "dev": "nodemon -q --no-stdin --ignore dist --exec babel-node index.js",
+    "build": "babel *.js --out-dir dist"
   },
   "bin": {
-    "filecoin-big-head": "index.js"
+    "filecoin-big-head": "dist/index.js"
   },
   "keywords": [],
   "author": "Jim Pick (@jimpick)",
   "license": "MIT",
   "dependencies": {
-    "esm": "^3.2.22",
     "filecoin-api-client": "^0.2.0",
-    "import-jsx": "^2.0.0",
     "ink": "^2.1.1",
     "ink-big-text": "^1.0.1",
     "ink-box": "^1.0.0",
     "ink-gradient": "^1.0.0",
     "react": "^16.8.6"
-  }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.3",
+    "@babel/core": "^7.4.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-transform-react-jsx": "^7.3.0",
+    "@babel/preset-env": "^7.4.3",
+    "babel-plugin-shebang": "^1.0.0",
+    "nodemon": "^1.18.10"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      "shebang",
+      "@babel/transform-react-jsx"
+    ]
+  },
+  "browserslist": "node 10"
 }

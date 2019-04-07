@@ -3,7 +3,7 @@ import Filecoin from 'filecoin-api-client'
 
 const fc = Filecoin()
 
-export default function useFilecoinHead () {
+export default function useFilecoinHead ({ interval = 1000 }) {
   const [headBlocks, setHeadBlocks] = useState()
   const [height, setHeight] = useState()
   const [updateTime, setUpdateTime] = useState(0)
@@ -33,9 +33,9 @@ export default function useFilecoinHead () {
       state.timeoutId = setTimeout(async () => {
         await doWork()
         schedule()
-      }, 1000)
+      }, interval)
     }
-    schedule()
+    doWork().then(schedule)
     return () => clearTimeout(state.timeoutId)
   }, true)
 
