@@ -18,7 +18,7 @@ const cli = meow(
       -c <color1,...>
 
         Colors:
-          cyan cyanBright black red redBright green greeBright
+          cyan cyanBright black red redBright green greenBright
           yellow yellowBright blue blueBright magenta magentaBright
           white whiteBright gray
           #ff8800 (any valid hex color)
