@@ -42,5 +42,9 @@
   "nodemonConfig": {
     "stdin": false,
     "restartable": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimpick/filecoin-big-head.git"
   }
 }
