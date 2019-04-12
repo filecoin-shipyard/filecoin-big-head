@@ -1,6 +1,6 @@
 {
   "name": "filecoin-big-head",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Displays Filecoin chain height in big letters in terminal",
   "scripts": {
     "dev": "nodemon --ignore dist --exec babel-node index.js",
@@ -18,6 +18,7 @@
     "ink": "^2.1.1",
     "ink-big-text": "^1.0.1",
     "meow": "^5.0.0",
+    "node-fetch": "^2.3.0",
     "react": "^16.8.6"
   },
   "devDependencies": {
@@ -27,7 +28,7 @@
     "@babel/plugin-transform-react-jsx": "^7.3.0",
     "@babel/preset-env": "^7.4.3",
     "babel-plugin-shebang": "^1.0.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.11"
   },
   "babel": {
     "presets": [
