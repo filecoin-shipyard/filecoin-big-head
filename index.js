@@ -6,6 +6,7 @@ import { render, Box } from 'ink'
 import BigText from 'ink-big-text'
 import useFilecoinConfig from './useFilecoinConfig'
 import useFilecoinHead from './useFilecoinHead'
+import useFilecoinNetworkInfo from './useFilecoinNetworkInfo'
 import InkWatchForExitKey from './inkWatchForExitKey'
 
 const cli = meow(
@@ -37,8 +38,15 @@ const cli = meow(
       -interval <seconds>           (default: 5)
       -i <seconds>
 
+        Interval to poll local filecoin node
+
+      -net-interval <seconds>       (default: 30)
+
+        Interval to poll devnet block explorer API
+
       --no-nickname
       --no-seconds
+      --no-net-info
   `,
   {
     flags: {
@@ -67,11 +75,20 @@ const cli = meow(
         alias: 'i',
         default: '5'
       },
+      netInterval: {
+        type: 'string',
+        alias: 'i',
+        default: '30'
+      },
       nickname: {
         type: 'boolean',
         default: true
       },
       seconds: {
+        type: 'boolean',
+        default: true
+      },
+      netInfo: {
         type: 'boolean',
         default: true
       }
@@ -86,12 +103,16 @@ const flashColors = args.flashColor.split(',')
 if (!flashColors[1]) flashColors[1] = colors[1]
 const flashDuration = Number(args.flashDuration) * 1000 
 const interval = Number(args.interval) * 1000 
+const netInterval = Number(args.netInterval) * 1000 
 
 const Main = () => {
   const [nickname] = useFilecoinConfig('heartbeat.nickname')
-  const [_, height, updateTime] = useFilecoinHead({
+  const [, height, updateTime] = useFilecoinHead({
     interval,
     flashDuration
+  })
+  const [netName, , netHeight] = useFilecoinNetworkInfo({
+    interval: netInterval
   })
 
   const { columns, rows } = process.stdout
@@ -109,6 +130,12 @@ const Main = () => {
     </Box>
     : null
 
+  const netInfo = args.netInfo ?
+    <Box>
+      {netName}: {netHeight >= 0 ? netHeight : 'Loading...'}
+    </Box>
+    : null
+
   return (
     <Box flexDirection="column" width={columns} height={rows - 1}>
       <Box>
@@ -120,14 +147,19 @@ const Main = () => {
           font={args.font}
           colors={displayColors} />
       </Box>
-      {seconds}
+      <Box>
+        <Box flexGrow={1}>{seconds}</Box>
+        <Box>{netInfo}</Box>
+      </Box>
       <InkWatchForExitKey />
     </Box>
   )
 }
 
 async function run () {
-  const { waitUntilExit } = render(<Main/>)
+  const { rerender, waitUntilExit } = render(<Main/>)
+
+  process.on('SIGWINCH', () => rerender(<Main/>))
 
   try {
     await waitUntilExit()
