@@ -1,6 +1,6 @@
 {
   "name": "filecoin-big-head",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Displays Filecoin chain height in big letters in terminal",
   "scripts": {
     "dev": "nodemon --ignore dist --exec babel-node index.js",
@@ -17,6 +17,7 @@
     "@jimpick/ink-watch-for-exit-key": "^0.0.1",
     "@jimpick/use-filecoin-config": "^0.0.2",
     "@jimpick/use-filecoin-head": "^0.0.1",
+    "@jimpick/use-filecoin-network-info": "^0.0.1",
     "filecoin-api-client": "^0.2.0",
     "ink": "^2.1.1",
     "ink-big-text": "^1.0.1",

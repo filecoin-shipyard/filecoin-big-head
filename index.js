@@ -6,7 +6,7 @@ import { render, Box } from 'ink'
 import BigText from 'ink-big-text'
 import useFilecoinConfig from '@jimpick/use-filecoin-config'
 import useFilecoinHead from '@jimpick/use-filecoin-head'
-import useFilecoinNetworkInfo from './useFilecoinNetworkInfo'
+import useFilecoinNetworkInfo from '@jimpick/use-filecoin-network-info'
 import InkWatchForExitKey from '@jimpick/ink-watch-for-exit-key'
 
 const cli = meow(
