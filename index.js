@@ -7,7 +7,7 @@ import BigText from 'ink-big-text'
 import useFilecoinConfig from '@jimpick/use-filecoin-config'
 import useFilecoinHead from './useFilecoinHead'
 import useFilecoinNetworkInfo from './useFilecoinNetworkInfo'
-import InkWatchForExitKey from './inkWatchForExitKey'
+import InkWatchForExitKey from '@jimpick/ink-watch-for-exit-key'
 
 const cli = meow(
   `
