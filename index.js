@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { render, Box } from 'ink'
 import BigText from 'ink-big-text'
 import useFilecoinConfig from '@jimpick/use-filecoin-config'
-import useFilecoinHead from './useFilecoinHead'
+import useFilecoinHead from '@jimpick/use-filecoin-head'
 import useFilecoinNetworkInfo from './useFilecoinNetworkInfo'
 import InkWatchForExitKey from '@jimpick/ink-watch-for-exit-key'
 
