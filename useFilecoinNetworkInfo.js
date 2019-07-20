@@ -5,7 +5,8 @@ import useFilecoinConfig from './useFilecoinConfig'
 export default function useFilecoinNetworkInfo ({
   interval = 1000
 }) {
-  const [netName] = useFilecoinConfig('net')
+  const [error, setError] = useState()
+  const [, netName] = useFilecoinConfig('net')
   const [headBlocks, setHeadBlocks] = useState()
   const [height, setHeight] = useState()
   const [updateTime, setUpdateTime] = useState()
@@ -16,32 +17,37 @@ export default function useFilecoinNetworkInfo ({
       height
     }
     async function doWork () {
-      let api
-      if (netName === 'devnet-user') {
-        api = 'http://user.kittyhawk.wtf:8000/api'
-      } else if (netName === 'devnet-nightly') {
-        api = 'https://explorer.nightly.kittyhawk.wtf/api'
-      } else if (netName === 'devnet-text') {
-        api = 'https://explorer.test.kittyhawk.wtf/api'
-      }
-      if (!api) return
+      try {
+        let api
+        if (netName === 'devnet-user') {
+          api = 'http://user.kittyhawk.wtf:8000/api'
+        } else if (netName === 'devnet-nightly') {
+          api = 'https://explorer.nightly.kittyhawk.wtf/api'
+        } else if (netName === 'devnet-text') {
+          api = 'https://explorer.test.kittyhawk.wtf/api'
+        }
+        if (!api) return
 
-      const response = await fetch(`${api}/chain/head`)
-      const headCids = await response.json()
-      const headBlocks = {}
-      let newHeight
-      for (const cid of headCids) {
-        const cidString = cid['/']
-        const response = await fetch(`${api}/show/block/${cidString}`)
-        const block = await response.json()
-        headBlocks[cid.toString()] = block
-        newHeight = block.height
-      }
-      setHeadBlocks(headBlocks)
-      if (newHeight !== state.height) {
-        state.height = newHeight
-        setHeight(state.height)
-        setUpdateTime(Date.now())
+        const response = await fetch(`${api}/chain/head`)
+        const headCids = await response.json()
+        const headBlocks = {}
+        let newHeight
+        for (const cid of headCids) {
+          const cidString = cid['/']
+          const response = await fetch(`${api}/show/block/${cidString}`)
+          const block = await response.json()
+          headBlocks[cid.toString()] = block
+          newHeight = block.height
+        }
+        setHeadBlocks(headBlocks)
+        if (newHeight !== state.height) {
+          state.height = newHeight
+          setHeight(state.height)
+          setUpdateTime(Date.now())
+        }
+        setError(null)
+      } catch (err) {
+        setError(err)
       }
     }
     function schedule () {
@@ -54,5 +60,5 @@ export default function useFilecoinNetworkInfo ({
     return () => clearTimeout(state.timeoutId)
   }, [netName])
 
-  return [netName, headBlocks, height, updateTime]
+  return [error, netName, headBlocks, height, updateTime]
 }

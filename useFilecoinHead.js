@@ -7,6 +7,7 @@ export default function useFilecoinHead ({
   interval = 1000,
   flashDuration
 }) {
+  const [error, setError] = useState()
   const [headBlocks, setHeadBlocks] = useState()
   const [height, setHeight] = useState()
   const [updateTime, setUpdateTime] = useState()
@@ -18,24 +19,29 @@ export default function useFilecoinHead ({
       height
     }
     async function doWork () {
-      const headCids = await fc.chain.head()
-      const headBlocks = {}
-      let newHeight
-      for (const cid of headCids) {
-        const block = await fc.show.block(cid)
-        headBlocks[cid.toString()] = block
-        newHeight = block.height
-      }
-      setHeadBlocks(headBlocks)
-      if (newHeight !== state.height) {
-        state.height = newHeight
-        setHeight(state.height)
-        setUpdateTime(Date.now())
-        if (flashDuration > 0) {
-          setTimeout(() => {
-            setLastFlashTime(Date.now())
-          }, flashDuration + 100)
+      try {
+        const headCids = await fc.chain.head()
+        const headBlocks = {}
+        let newHeight
+        for (const cid of headCids) {
+          const block = await fc.show.block(cid)
+          headBlocks[cid.toString()] = block
+          newHeight = block.height
         }
+        setHeadBlocks(headBlocks)
+        if (newHeight !== state.height) {
+          state.height = newHeight
+          setHeight(state.height)
+          setUpdateTime(Date.now())
+          if (flashDuration > 0) {
+            setTimeout(() => {
+              setLastFlashTime(Date.now())
+            }, flashDuration + 100)
+          }
+        }
+        setError(null)
+      } catch (err) {
+        setError(err)
       }
     }
     function schedule () {
@@ -48,5 +54,5 @@ export default function useFilecoinHead ({
     return () => clearTimeout(state.timeoutId)
   }, true)
 
-  return [headBlocks, height, updateTime, lastFlashTime]
+  return [error, headBlocks, height, updateTime, lastFlashTime]
 }
