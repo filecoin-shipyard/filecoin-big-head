@@ -2,7 +2,7 @@
 
 import meow from 'meow'
 import React, { useState, useEffect } from 'react'
-import { render, Box } from 'ink'
+import { render, Box, Color } from 'ink'
 import BigText from 'ink-big-text'
 import useFilecoinConfig from './useFilecoinConfig'
 import useFilecoinHead from './useFilecoinHead'
@@ -101,24 +101,27 @@ const colors = args.color.split(',')
 if (!colors[1]) colors[1] = colors[0]
 const flashColors = args.flashColor.split(',')
 if (!flashColors[1]) flashColors[1] = colors[1]
-const flashDuration = Number(args.flashDuration) * 1000 
-const interval = Number(args.interval) * 1000 
-const netInterval = Number(args.netInterval) * 1000 
+const flashDuration = Number(args.flashDuration) * 1000
+const interval = Number(args.interval) * 1000
+const netInterval = Number(args.netInterval) * 1000
 
 const Main = () => {
-  const [nickname] = useFilecoinConfig('heartbeat.nickname')
-  const [, height, updateTime] = useFilecoinHead({
+  const [nickError, nickname] = useFilecoinConfig('heartbeat.nickname')
+  const [headError, , height, updateTime] = useFilecoinHead({
     interval,
     flashDuration
   })
-  const [netName, , netHeight] = useFilecoinNetworkInfo({
+  const [netError, netName, , netHeight] = useFilecoinNetworkInfo({
     interval: netInterval
   })
 
+  const error = headError || netError || nickError
   const { columns, rows } = process.stdout
 
   if (!updateTime) {
-    return <Box>Loading...</Box>
+    return error
+      ? <Box><Color red>Error: {error.stack}</Color></Box>
+      : <Box>Loading...</Box>
   }
 
   const displayColors = (Date.now() < updateTime + flashDuration) ?
@@ -151,6 +154,11 @@ const Main = () => {
         <Box flexGrow={1}>{seconds}</Box>
         <Box>{netInfo}</Box>
       </Box>
+      {error && (
+        <Box>
+          <Color red>Error: {error.stack}</Color>
+        </Box>
+      )}
       <InkWatchForExitKey />
     </Box>
   )
