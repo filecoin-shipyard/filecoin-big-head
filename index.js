@@ -4,10 +4,10 @@ import meow from 'meow'
 import React, { useState, useEffect } from 'react'
 import { render, Box, Color } from 'ink'
 import BigText from 'ink-big-text'
-import useFilecoinConfig from './useFilecoinConfig'
-import useFilecoinHead from './useFilecoinHead'
-import useFilecoinNetworkInfo from './useFilecoinNetworkInfo'
-import InkWatchForExitKey from './inkWatchForExitKey'
+import useFilecoinConfig from '@jimpick/use-filecoin-config'
+import useFilecoinHead from '@jimpick/use-filecoin-head'
+import useFilecoinNetworkInfo from '@jimpick/use-filecoin-network-info'
+import InkWatchForExitKey from '@jimpick/ink-watch-for-exit-key'
 
 const cli = meow(
   `
