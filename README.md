@@ -38,5 +38,4 @@ For more font examples, see [cfonts](https://github.com/dominikwilkowski/cfonts)
 
 # License
 
-MIT
-
+MIT/Apache-2 ([Permissive License Stack](https://protocol.ai/blog/announcing-the-permissive-license-stack/))
