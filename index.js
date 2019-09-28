@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import meow from 'meow'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { render, Box, Color } from 'ink'
 import BigText from 'ink-big-text'
 import useFilecoinConfig from '@filecoin-shipyard/use-filecoin-config'
